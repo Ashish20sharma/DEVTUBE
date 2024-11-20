@@ -50,16 +50,17 @@ const login=async(req,res)=>{
         })
         res.status(201).json({message:"user loggedin."})
     } catch (error) {
-        res.status(401).json({message:"Error while login",error:error});
+        res.status(401).json({message:"Error while login.",Error:error});
     }
 };
 
 const logout=async(req,res)=>{
-    res.cookie("token","",{
-        httpOnly:true,
-        secure:true
-    })
-    res.status(201).json({message:"Logout successfully."})
+    try{
+        res.clearCookie("token")
+        res.status(201).json({message:"Logout successfully."})
+    }catch(error){
+        res.status(401).json({message:"Error while Logout",Error:error})
+    }
 };
 
 const getUserProfile=async(req,res)=>{
